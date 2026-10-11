@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sève &amp; Sel · La brume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F2B27; --soft:#4F5F59;
+  --euc:#2E5E4E; --euc-d:#21473B; --sage:#D7E6DD; --mist:#EEF3EF;
+  --paper:#FFFFFF; --paper-l:#FBF8F1;
+  --rose:#A93F52; --rose-bg:#FBEAEC; --honey-bg:#FBF0D6; --honey-l:#E3B34C; --honey:#7A5304;
+  --line:#C9D8CF;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--body);color:var(--ink);background:var(--mist);font-size:16px;line-height:1.45;padding-bottom:env(safe-area-inset-bottom,0)}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #E3A72F;outline-offset:2px}
+
+/* En-tête */
+.top{position:sticky;top:0;z-index:20;background:var(--euc-d);color:#fff;display:flex;align-items:center;gap:10px;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0))}
+.brand{font-family:var(--display);font-weight:800;font-size:1.1rem;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.steps{display:flex;gap:4px;list-style:none;margin:0;padding:0;flex:1;justify-content:center}
+.steps button{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:4px 10px;font-size:.85rem;display:flex;gap:6px;align-items:center;min-height:36px}
+.steps button[aria-current="step"]{background:#fff;color:var(--euc-d);font-weight:700}
+.steps button:disabled{opacity:.35;cursor:not-allowed}
+.steps .dot{font-weight:700}
+.carnet-btn{background:#8FCBAE;color:var(--euc-d);border:0;border-radius:10px;padding:6px 10px;font-weight:700;min-height:36px;white-space:nowrap}
+@media (max-width:720px){.steps .lbl{display:none}.brand .txt{display:none}}
+
+main{max-width:1180px;margin:0 auto;padding:14px 12px 30px}
+
+/* Bandeau mission */
+.mhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:2px 4px 10px;flex-wrap:wrap}
+.mhead h2{font-size:1.25rem;color:var(--euc-d)}
+.mhead .goal{color:var(--soft);font-size:.92rem}
+
+/* Livre ouvert */
+.book{display:grid;grid-template-columns:1fr 1fr;background:var(--paper);border-radius:14px;box-shadow:0 1px 0 var(--line),0 10px 28px rgba(31,43,39,.12);overflow:hidden;position:relative}
+.book::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:28px;margin-left:-14px;background:linear-gradient(90deg,transparent,rgba(31,43,39,.10) 48%,rgba(31,43,39,.16) 50%,rgba(31,43,39,.10) 52%,transparent);pointer-events:none}
+.page{padding:18px 22px 20px;min-width:0}
+.page.res-page{background:var(--paper-l)}
+.ptitle{font-family:var(--display);font-weight:700;font-size:.95rem;color:var(--soft);margin:0 0 10px;display:flex;justify-content:space-between}
+@media (max-width:760px){
+  .book{grid-template-columns:1fr}
+  .book::before{display:none}
+  .page{padding:14px 14px 16px}
+  .book{overflow:visible}
+  .page.res-page{border-bottom:2px dashed var(--line);position:sticky;top:52px;z-index:5;max-height:40vh;max-height:40dvh;overflow:auto;border-radius:14px 14px 0 0;box-shadow:0 6px 10px -6px rgba(31,43,39,.25)}
+  .page.res-page .ptitle{margin-bottom:6px}
+  .mhead{margin-bottom:8px}.mhead h2{font-size:1.05rem}.mhead .goal{font-size:.82rem}
+  .res-b{font-size:.88rem}
+}
+
+/* Ressources */
+.res{border:1.5px solid var(--ink);border-radius:4px;margin-bottom:10px;background:#fff}
+.res-h{background:var(--ink);color:#fff;padding:4px 10px;font-weight:700;font-size:.85rem}
+.res-b{padding:8px 10px;font-size:.92rem}
+.prod{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.prod:last-child{border-bottom:0}
+.prod .pn{grid-column:1/-1;font-weight:700}
+.prod span:nth-child(odd){color:var(--soft)}
+.prod b{font-variant-numeric:tabular-nums;text-align:right}
+.res ul{margin:0;padding-left:18px}
+table.mini{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.92rem}
+.mini th,.mini td{border:1px solid #8C9C95;padding:4px 6px;text-align:center}
+.mini thead th{background:var(--euc-d);color:#fff}
+.mini td:first-child,.mini th:first-child{text-align:left}
+.mini .v{background:#DDEEE4;font-weight:700}
+.legend{font-size:.8rem;color:var(--soft);margin-top:4px}
+.mob{display:none}
+@media (max-width:760px){.mob{display:inline}}
+.mine{border:1.5px dashed #6E9A86;border-radius:6px;background:#fff;padding:6px 10px;font-variant-numeric:tabular-nums}
+.mine .mh{font-weight:700;font-size:.85rem;color:var(--euc-d);margin-bottom:2px}
+.mine .l{display:flex;justify-content:space-between;gap:8px;font-size:.92rem}
+.mine .l.wait b{color:#9AA8A2;font-weight:400}
+
+/* Page de calcul */
+.cp h3{font-size:1.15rem;margin-bottom:2px}
+.cp .cons{margin:0 0 12px;color:var(--soft)}
+.fields{display:grid;gap:12px}
+.field{border-left:3px solid var(--sage);padding:2px 0 2px 10px}
+.field.ok{border-left-color:var(--euc)}
+.field.help{border-left-color:var(--honey-l)}
+.field label{display:block;font-weight:700;margin-bottom:4px}
+.row{display:flex;gap:6px;align-items:center}
+.row input{flex:1;min-width:0;max-width:170px;font:inherit;font-size:17px;font-variant-numeric:tabular-nums;padding:8px 10px;border:2px solid var(--line);border-radius:10px;min-height:44px;background:#fff}
+.row input:disabled{background:var(--mist);border-color:transparent;font-weight:700;color:var(--ink)}
+.unit{color:var(--soft);min-width:1.2em}
+.btn{background:var(--euc);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;min-height:44px}
+.btn:hover{background:var(--euc-d)}
+.btn.ghost{background:#fff;color:var(--euc-d);border:2px solid var(--euc)}
+.row .btn:disabled{display:none}
+.fb{margin-top:6px;font-size:.92rem}
+.fb:empty{display:none}
+.ok-m{color:var(--euc-d);font-weight:700}
+.ko-m{color:var(--rose);font-weight:700}
+.formula{display:block;margin-top:4px;background:var(--rose-bg);border:1px solid #E6B9C0;border-radius:8px;padding:5px 8px;font-weight:700}
+.hint{display:block;margin-top:4px;background:var(--mist);border-radius:8px;padding:5px 8px}
+.reveal{margin-top:4px;background:var(--honey-bg);border:1px solid var(--honey-l);border-radius:8px;padding:6px 8px;color:#4A3503}
+.choices{display:grid;gap:6px;margin:8px 0 10px}
+.choice{display:flex;gap:8px;align-items:flex-start;padding:9px 10px;border:2px solid var(--line);border-radius:10px;background:#fff;min-height:44px;cursor:pointer}
+.choice input{margin-top:3px;width:18px;height:18px;accent-color:var(--euc);flex:none}
+.choice.right{border-color:var(--euc);background:#EAF4EE}
+.choice.wrong{border-color:#E6B9C0;background:var(--rose-bg)}
+textarea{width:100%;min-height:96px;font:inherit;font-size:16px;padding:8px 10px;border:2px solid var(--line);border-radius:10px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.nav .pg{font-size:.85rem;color:var(--soft)}
+.nav .btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* Feuille carnet */
+.sheet{position:fixed;inset:0;background:rgba(20,30,27,.45);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.sheet-in{background:#FFFEFB;width:100%;max-width:460px;max-height:85vh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom,0))}
+@media (min-width:761px){.sheet{align-items:center}.sheet-in{border-radius:12px}}
+.sheet h2{font-size:1.15rem;text-align:center}
+.grp{border-top:1.5px dashed #A9BDB2;margin-top:8px;padding-top:6px;font-variant-numeric:tabular-nums}
+.grp-t{font-weight:700;font-size:.85rem;color:var(--euc-d)}
+.grp .l{display:flex;justify-content:space-between;font-size:.9rem}
+.grp .l.todo span:last-child{color:#9AA8A2}
+.h{color:var(--honey);font-weight:700}
+
+/* Accueil */
+.home{max-width:620px;margin:6px auto;display:grid;gap:14px}
+.hero{background:var(--euc-d);color:#fff;border-radius:16px;padding:22px}
+.hero h1{font-size:clamp(1.6rem,6vw,2.4rem);font-weight:800}
+.hero p{margin:8px 0 0;opacity:.92}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px}
+.card label{font-weight:700;display:block;margin-bottom:3px}
+.card input{width:100%;font:inherit;font-size:17px;padding:9px 10px;border:2px solid var(--line);border-radius:10px;min-height:44px}
+.rules{margin:0;padding-left:18px}
+.err{color:var(--rose);font-weight:700;min-height:1.2em}
+
+/* Bilan */
+.bilan{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
+.b-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--euc);padding-bottom:8px;margin-bottom:8px}
+.b-head h1{font-size:1.2rem;color:var(--euc-d)}
+.score{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.score span{border-radius:999px;padding:3px 10px;font-weight:700;font-size:.82rem}
+.s1{background:#EAF4EE;color:var(--euc-d)}.s2{background:var(--mist)}.s3{background:var(--honey-bg);color:#4A3503}
+.b-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:900px){.b-cols{grid-template-columns:1fr}}
+.b-col h2{font-size:.95rem;background:var(--sage);padding:3px 8px;border-radius:6px;margin-bottom:4px}
+.b-t{width:100%;border-collapse:collapse;font-size:.78rem;font-variant-numeric:tabular-nums}
+.b-t td,.b-t th{padding:2px 4px;border-bottom:1px solid #E1EAE4;text-align:left}
+.b-t td:not(:first-child){text-align:right;white-space:nowrap}
+.st{font-weight:700}.st.a{color:var(--euc-d)}.st.b{color:var(--soft)}.st.c{color:var(--honey)}
+.b-com{font-size:.8rem;background:var(--mist);border-radius:6px;padding:5px 8px;margin-top:5px}
+.b-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.capture{background:var(--honey-bg);border:1px solid var(--honey-l);border-radius:10px;padding:10px 12px;color:#4A3503;margin-top:12px;font-size:.92rem}
+@media print{.top,.b-actions,.capture{display:none!important}body{background:#fff}}
+@media (prefers-reduced-motion:no-preference){.book{animation:turn .3s ease-out}@keyframes turn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}}
+
+.prog{flex:1;height:8px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;max-width:420px;margin:0 auto}
+.prog span{display:block;height:100%;width:0;background:#8FCBAE;transition:width .3s}
+.result{max-width:440px;margin:10px auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center}
+.r-who{font-size:1rem}.r-who span{color:var(--soft);font-size:.88rem}
+.r-note{margin:14px 0 6px;font-family:var(--display);color:var(--euc-d)}
+.r-note .big{font-size:4.2rem;font-weight:800;line-height:1}.r-note .sur{font-size:1.6rem;font-weight:700;margin-left:4px}
+.r-pct .bar{height:12px;background:var(--mist);border-radius:99px;overflow:hidden;margin:8px 0}
+.r-pct .bar span{display:block;height:100%;background:var(--euc)}
+.r-lvl{font-weight:700;margin:10px 0 4px}.r-det{color:var(--soft);font-size:.9rem;margin:0}
+.r-code{margin:10px 0 0;font-size:.9rem;color:var(--soft)}.r-code b{color:var(--ink);letter-spacing:.1em}
+.capture{max-width:440px;margin:12px auto 0}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C8 9 6 16 9 23c2 4 5 6 7 6s5-2 7-6c3-7 1-14-7-20z" fill="#8FCBAE"/></svg><span class="txt">Sève &amp; Sel</span></div>
+  <div class="prog" id="prog" aria-hidden="true"><span id="progBar"></span></div>
+  <button class="carnet-btn" id="carnetBtn" type="button" hidden>Carnet</button>
+</header>
+<main id="app"></main>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Mon carnet de calculs">
+  <div class="sheet-in"><div id="sheetBody"></div><button class="btn" type="button" id="sheetClose" style="width:100%;margin-top:12px">Fermer</button></div>
+</div>
+<script>
+/* ================= DONNÉES ================= */
+const PROD = "Brume parfumée fleur d'oranger";
+const STEPS = [
+ {titre:"Prix d'achat net", cons:"Applique la remise du fournisseur.", fields:[
+   {id:"rem", label:"Remise fournisseur", short:"Remise fournisseur", unit:"€", answer:1.20,
+    formula:"Remise = prix d'achat brut × taux de remise", hint:"10 % = 0,10.",
+    traps:[{v:10.80,msg:"Ça, c'est le prix après remise."}]},
+   {id:"pan", label:"Prix d'achat net HT", short:"Prix d'achat net HT", unit:"€", answer:10.80, uses:["rem"],
+    formula:"Prix d'achat net = prix d'achat brut − remise", hint:"Pars de 12,00 €.",
+    traps:[{v:13.20,msg:"Une remise se retire."}]}]},
+ {titre:"Prix de vente", cons:"Calcule le prix de vente habituel.", uses:["pan"], fields:[
+   {id:"ttc", label:"PV TTC", short:"PV TTC", unit:"€", answer:27.00,
+    formula:"PV TTC = prix d'achat net HT × coefficient", hint:"Coefficient : 2,50.",
+    traps:[{v:30,msg:"Utilise le prix d'achat net, pas le brut."},{v:4.32,msg:"On multiplie par le coefficient."}]},
+   {id:"ht", label:"PV HT", short:"PV HT", unit:"€", answer:22.50, uses:["ttc"],
+    formula:"PV HT = PV TTC ÷ 1,20", hint:"TVA = 20 %.",
+    traps:[{v:21.60,msg:"On divise par 1,20, on ne retire pas 20 %."},{v:32.40,msg:"On divise par 1,20, on ne multiplie pas."}]}]},
+ {titre:"Prix promotionnel", cons:"Applique la remise client de l'opération.", uses:["ttc"], fields:[
+   {id:"rc", label:"Remise client", short:"Remise client", unit:"€", answer:5.40,
+    formula:"Remise = PV TTC × taux de remise", hint:"20 % = 0,20.",
+    traps:[{v:21.60,msg:"Ça, c'est le prix après remise."},{v:4.50,msg:"La remise se calcule sur le PV TTC."}]},
+   {id:"tp", label:"PV TTC promo", short:"PV TTC promo", unit:"€", answer:21.60, uses:["rc"],
+    formula:"PV TTC promo = PV TTC − remise", hint:"Pars du PV TTC habituel.",
+    traps:[{v:32.40,msg:"Une remise se retire."}]},
+   {id:"hp", label:"PV HT promo", short:"PV HT promo", unit:"€", answer:18.00, uses:["tp"],
+    formula:"PV HT = PV TTC ÷ 1,20", hint:"Utilise le PV TTC promo.",
+    traps:[{v:17.28,msg:"On divise par 1,20, on ne retire pas 20 %."},{v:22.50,msg:"Utilise le prix promo."}]}]},
+ {titre:"Marge unitaire", cons:"Ce que le magasin gagne sur 1 brume en promo.", uses:["hp","pan"], fields:[
+   {id:"mg", label:"Marge unitaire", short:"Marge unitaire", unit:"€", answer:7.20,
+    formula:"Marge = PV HT − prix d'achat net HT", hint:"Toujours avec des prix HT.",
+    traps:[{v:10.80,msg:"La marge se calcule avec le PV HT."},{v:11.70,msg:"Utilise le prix promo."},{v:6.00,msg:"Utilise le prix d'achat net."}]}]},
+ {titre:"Chiffre d'affaires", cons:"Pour les 150 brumes vendues en promo.", uses:["tp","hp"], fields:[
+   {id:"catc", label:"CA TTC", short:"CA TTC", unit:"€", answer:3240.00,
+    formula:"CA TTC = PV TTC promo × quantité vendue", hint:"Quantité : 150.",
+    traps:[{v:4050,msg:"Les brumes ont été vendues au prix promo."}]},
+   {id:"caht", label:"CA HT", short:"CA HT", unit:"€", answer:2700.00, uses:["catc"],
+    formula:"CA HT = CA TTC ÷ 1,20 (ou PV HT promo × quantité)", hint:"TVA = 20 %.",
+    traps:[{v:2592,msg:"On divise par 1,20, on ne retire pas 20 %."},{v:3375,msg:"Utilise le prix promo."}]}]},
+ {titre:"Coûts et bénéfice", cons:"Ce qu'il reste au magasin après toutes les dépenses.", uses:["pan","caht"], fields:[
+   {id:"co", label:"Coût d'achat des brumes vendues", short:"Coût d'achat", unit:"€", answer:1620.00,
+    formula:"Coût d'achat = prix d'achat net HT × quantité", hint:"Quantité : 150.",
+    traps:[{v:1800,msg:"Utilise le prix d'achat net."}]},
+   {id:"tot", label:"Total des coûts", short:"Total des coûts", unit:"€", answer:1920.00, uses:["co"],
+    formula:"Total des coûts = coût d'achat + frais de l'opération", hint:"Frais : ressource.",
+    traps:[{v:1620,msg:"Tu as oublié les frais."}]},
+   {id:"ben", label:"Bénéfice", short:"Bénéfice", unit:"€", answer:780.00, uses:["tot"],
+    formula:"Bénéfice = CA HT − total des coûts", hint:"Les coûts sont HT.",
+    traps:[{v:1320,msg:"Utilise le CA HT."},{v:1080,msg:"Tu as oublié les frais."}]}]}
+];
+const FIELDS = {};
+STEPS.forEach(s=>s.fields.forEach(f=>FIELDS[f.id]=f));
+const NB = Object.keys(FIELDS).length;
+const PTS = {first:1, retry2:0.5, retry3:0.25, aide:0};
+
+/* ================= ÉTAT ================= */
+const KEY = "seve-sel-brume-v1";
+const blank = () => ({name:"",prenom:"",classe:"",start:0,end:0,view:"home",page:0,f:{}});
+let S = load() || blank();
+function load(){ try{ const x=localStorage.getItem(KEY); return x?JSON.parse(x):null; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+const fst = id => S.f[id] || (S.f[id] = {tries:0,done:false,status:"",val:""});
+const nf = (n,d=2) => Number(n).toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const show = f => nf(f.answer)+" "+f.unit;
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const stepDone = s => s.fields.every(f=>fst(f.id).done);
+const allDone = () => STEPS.every(stepDone);
+function points(st){ if(!st.done) return 0; if(st.status==="first") return PTS.first; if(st.status==="aide") return 0; return st.tries===1?PTS.retry2:PTS.retry3; }
+
+/* ================= EN-TÊTE ================= */
+function renderHeader(){
+  const done = Object.keys(FIELDS).filter(id=>fst(id).done).length;
+  document.getElementById("progBar").style.width = (done/NB*100)+"%";
+  document.getElementById("carnetBtn").hidden = !S.start || S.view!=="calc";
+}
+
+/* ================= RESSOURCE ================= */
+function resHTML(){
+  return `<div class="res"><div class="res-h">Fiche produit · ${PROD} (100 ml)</div><div class="res-b">
+   <div class="prod"><span>Prix d'achat brut HT</span><b>12,00 €</b><span>Remise fournisseur</span><b>10 %</b><span>Coefficient multiplicateur</span><b>2,50</b><span>TVA</span><b>20 %</b></div>
+   <div class="legend">Le coefficient s'applique au prix d'achat net HT pour obtenir le PV TTC.</div></div></div>
+   <div class="res"><div class="res-h">Opération Fête des pères</div><div class="res-b"><div class="prod">
+   <span>Remise client</span><b>20 % du PV TTC</b><span>Brumes vendues</span><b>150</b><span>Frais (présentoir + affiches)</span><b>300,00 € HT</b></div></div></div>`;
+}
+function usesHTML(ids){
+  if(!ids||!ids.length) return "";
+  return `<div class="mine"><div class="mh">Mon carnet</div>${ids.map(id=>{const f=FIELDS[id],st=fst(id);
+    return `<div class="l ${st.done?"":"wait"}" data-use="${id}"><span>${f.short}</span><b>${st.done?show(f):"…"}</b></div>`;}).join("")}</div>`;
+}
+function carnetHTML(){
+  return `<h2>Mon carnet de calculs</h2><div class="grp">`+Object.values(FIELDS).map(f=>{const st=fst(f.id);
+    return st.done?`<div class="l"><span>${f.short}</span><span>${show(f)}</span></div>`:`<div class="l todo"><span>${f.short}</span><span>à calculer</span></div>`;}).join("")+`</div>`;
+}
+const sheet=document.getElementById("sheet");
+document.getElementById("carnetBtn").onclick=()=>{ sheetBody.innerHTML=carnetHTML(); sheet.hidden=false; sheetClose.focus(); };
+sheetClose.onclick=()=>sheet.hidden=true;
+sheet.addEventListener("click",e=>{ if(e.target===sheet) sheet.hidden=true; });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") sheet.hidden=true; });
+
+/* ================= ACCUEIL ================= */
+function renderHome(){
+  app.innerHTML=`<section class="home">
+   <div class="hero"><h1>Une brume, du prix d'achat au bénéfice</h1><p>Sève &amp; Sel lance une promo Fête des pères sur sa brume parfumée. 6 étapes, 13 calculs.</p></div>
+   <div class="card">
+    <ul class="rules"><li>À gauche : la ressource. À droite : ton calcul.</li><li>Erreur → la formule s'affiche.</li><li>3 erreurs → la réponse est donnée.</li><li>Arrondis à 2 chiffres après la virgule.</li><li>À la fin : ta note sur 20, à envoyer.</li></ul>
+    <div><label for="nom">Nom</label><input id="nom" autocomplete="family-name" value="${esc(S.name)}"></div>
+    <div><label for="prenom">Prénom</label><input id="prenom" autocomplete="given-name" value="${esc(S.prenom)}"></div>
+    <div><label for="classe">Classe</label><input id="classe" value="${esc(S.classe||"T Bac Pro MCV")}"></div>
+    <div class="err" id="err" aria-live="polite"></div>
+    <button class="btn" id="startBtn" type="button">${S.start?"Reprendre":"Commencer"}</button>
+    ${S.start?'<button class="btn ghost" id="resetBtn" type="button">Tout recommencer</button>':""}
+   </div></section>`;
+  startBtn.onclick=()=>{
+    const n=nom.value.trim(),p=prenom.value.trim();
+    if(!n||!p){ err.textContent="Écris ton nom et ton prénom."; return; }
+    S.name=n; S.prenom=p; S.classe=classe.value.trim()||"—"; if(!S.start) S.start=Date.now();
+    go(allDone()?"note":"calc");
+  };
+  const r=document.getElementById("resetBtn"); if(r) r.onclick=resetAll;
+}
+function resetAll(){ if(confirm("Effacer tout ton travail ?")){ S=blank(); save(); render(); } }
+function go(v){ S.view=v; save(); render(); window.scrollTo({top:0}); }
+
+/* ================= CALCUL ================= */
+function fieldHTML(f){
+  const st=fst(f.id), cls=st.done?(st.status==="aide"?"help":"ok"):"";
+  const v=st.done?esc(st.status==="aide"?nf(f.answer):st.val):"";
+  return `<div class="field ${cls}"><label for="in-${f.id}">${f.label}</label>
+   ${f.uses?usesHTML(f.uses):""}
+   <div class="row"><input id="in-${f.id}" inputmode="decimal" enterkeyhint="done" autocomplete="off" value="${v}" ${st.done?"disabled":""}>
+   <span class="unit">${f.unit}</span><button class="btn" type="button" data-check="${f.id}" ${st.done?"disabled":""}>Vérifier</button></div>
+   <div class="fb" id="fb-${f.id}" aria-live="polite">${feedback(f)}</div></div>`;
+}
+function feedback(f,x){
+  const st=fst(f.id);
+  if(st.done){
+    if(st.status==="first") return `<span class="ok-m">✓ Juste !</span>`;
+    if(st.status==="retry") return `<span class="ok-m">✓ Juste (${st.tries+1} essais)</span>`;
+    return `<div class="reveal">Réponse : <b>${show(f)}</b><br>Formule : <b>${f.formula}</b></div>`;
+  }
+  if(x&&x.t==="round") return `<span class="ko-m">Presque : vérifie l'arrondi.</span>`;
+  if(x&&x.t==="nan") return `<span class="ko-m">Écris un nombre (ex : 12,50).</span>`;
+  if(!st.tries) return "";
+  let h=`<span class="ko-m">✗ Faux · essai ${st.tries}/3</span>`;
+  if(x&&x.t==="trap") h+=`<span class="hint">${x.msg}</span>`;
+  h+=`<span class="formula">${f.formula}</span>`;
+  if(st.tries>=2) h+=`<span class="hint">Aide : ${f.hint}</span>`;
+  return h;
+}
+function parseNum(s){
+  const c=String(s).replace(/\s| /g,"").replace(/€|%/g,"").replace(",",".");
+  return /^-?\d+(\.\d+)?$/.test(c)?parseFloat(c):NaN;
+}
+function check(id){
+  const f=FIELDS[id], st=fst(id); if(st.done) return;
+  const input=document.getElementById("in-"+id), fb=document.getElementById("fb-"+id);
+  const v=parseNum(input.value);
+  if(isNaN(v)){ fb.innerHTML=feedback(f,{t:"nan"}); return; }
+  if(Math.abs(v-f.answer)<0.0051){ st.done=true; st.status=st.tries?"retry":"first"; st.val=input.value.trim(); }
+  else if(Math.abs(v-f.answer)<0.06){ fb.innerHTML=feedback(f,{t:"round"}); return; }
+  else{
+    st.tries++;
+    const trap=(f.traps||[]).find(t=>Math.abs(v-t.v)<0.0051);
+    if(st.tries>=3){ st.done=true; st.status="aide"; }
+    else{ save(); fb.innerHTML=feedback(f,trap?{t:"trap",msg:trap.msg}:null); input.select(); return; }
+  }
+  save();
+  input.closest(".field").outerHTML=fieldHTML(f);
+  refresh();
+  const nxt=document.querySelector(".field input:not(:disabled)");
+  if(nxt) nxt.focus({preventScroll:true});
+}
+function renderCalc(){
+  let maxP=STEPS.findIndex(s=>!stepDone(s)); if(maxP<0) maxP=STEPS.length-1;
+  const p=Math.min(S.page,maxP); S.page=p;
+  const s=STEPS[p];
+  app.innerHTML=`<div class="mhead"><h2>${PROD}</h2><span class="goal">Étape ${p+1} / ${STEPS.length}</span></div>
+   <div class="book">
+    <section class="page res-page" aria-label="Ressource"><div class="ptitle"><span>Ressource</span><span class="legend mob" style="margin:0">fais défiler ↕</span></div>${resHTML()}${usesHTML(s.uses)}</section>
+    <section class="page cp" aria-label="Calcul"><div class="ptitle"><span>Calcul</span><span>Page ${p+1} / ${STEPS.length}</span></div>
+     <h3>${s.titre}</h3><p class="cons">${s.cons}</p><div class="fields">${s.fields.map(fieldHTML).join("")}</div><div class="nav" id="nav"></div></section>
+   </div>`;
+  refresh();
+}
+function refresh(){
+  if(S.view==="calc"){
+    const p=S.page, d=stepDone(STEPS[p]), last=p===STEPS.length-1;
+    const nextBtn = last ? `<button class="btn" type="button" data-go="note" ${d?"":"disabled"}>Ma note ›</button>`
+                         : `<button class="btn" type="button" data-page="${p+1}" ${d?"":"disabled"}>Suivant ›</button>`;
+    nav.innerHTML=`<button class="btn ghost" type="button" data-page="${p-1}" ${p>0?"":"disabled"}>‹ Retour</button>${nextBtn}`;
+    document.querySelectorAll("[data-use]").forEach(el=>{ const f=FIELDS[el.dataset.use],st=fst(f.id); el.classList.toggle("wait",!st.done); el.querySelector("b").textContent=st.done?show(f):"…"; });
+  }
+  renderHeader();
+}
+app.addEventListener("click",e=>{
+  const c=e.target.closest("[data-check]"); if(c) return check(c.dataset.check);
+  const pg=e.target.closest("[data-page]"); if(pg&&!pg.disabled){ S.page=+pg.dataset.page; save(); renderCalc(); window.scrollTo({top:0}); return; }
+  const g=e.target.closest("[data-go]"); if(g&&!g.disabled) return go(g.dataset.go);
+});
+app.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches(".field input")){ e.preventDefault(); check(e.target.id.slice(3)); } });
+
+/* ================= NOTE FINALE ================= */
+function code(str){ let h=7; for(const ch of str) h=(h*31+ch.charCodeAt(0))%1679616; return h.toString(36).toUpperCase().padStart(4,"0"); }
+function renderNote(){
+  if(!S.end){ S.end=Date.now(); save(); }
+  const ids=Object.keys(FIELDS);
+  const pts=ids.reduce((a,id)=>a+points(fst(id)),0);
+  const pct=Math.round(pts/NB*100);
+  const note=Math.round(pts/NB*20*2)/2;
+  const nFirst=ids.filter(id=>fst(id).status==="first").length;
+  const nAide=ids.filter(id=>fst(id).status==="aide").length;
+  const mins=Math.max(1,Math.round((S.end-S.start)/60000));
+  const date=new Date(S.end).toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"});
+  const cle=code(`${S.name}|${S.prenom}|${pct}|${note}|${S.end}`);
+  const msg=`${S.prenom} ${S.name} (${S.classe}) · Brume Sève & Sel · ${nf(note,1)}/20 · ${pct} % de réussite · ${date} · code ${cle}`;
+  const lvl = pct>=80?"Très bien !":pct>=60?"Bien, continue !":pct>=40?"En progrès : revois les formules.":"Revois les formules et recommence.";
+  app.innerHTML=`<section class="result">
+   <div class="r-who"><b>${esc(S.prenom)} ${esc(S.name)}</b> · ${esc(S.classe)}<br><span>${date} · ${mins} min</span></div>
+   <div class="r-note"><span class="big">${nf(note,1)}</span><span class="sur">/ 20</span></div>
+   <div class="r-pct"><div class="bar"><span style="width:${pct}%"></span></div><b>${pct} % de réussite</b></div>
+   <p class="r-lvl">${lvl}</p>
+   <p class="r-det">${nFirst} calcul${nFirst>1?"s":""} juste${nFirst>1?"s":""} du premier coup sur ${NB} · ${nAide} réponse${nAide>1?"s":""} donnée${nAide>1?"s":""}</p>
+   <p class="r-code">Code : <b>${cle}</b></p>
+  </section>
+  <div class="capture"><b>Pour rendre ton travail :</b> fais une capture d'écran de cette note, ou copie ton résultat et colle-le dans ton message à ta professeure.</div>
+  <div class="b-actions"><button class="btn" type="button" id="copyBtn">Copier mon résultat</button><button class="btn ghost" type="button" id="reset2">Recommencer</button></div>
+  <p class="err" id="copied" style="text-align:center;color:var(--euc-d)" aria-live="polite"></p>`;
+  copyBtn.onclick=async()=>{
+    try{ await navigator.clipboard.writeText(msg); copied.textContent="Copié ! Colle-le dans ton message."; }
+    catch(e){ copied.textContent=msg; }
+  };
+  reset2.onclick=resetAll;
+}
+
+/* ================= RENDU ================= */
+function render(){
+  if(!S.start||S.view==="home"){ S.view="home"; renderHome(); }
+  else if(S.view==="note"&&allDone()) renderNote();
+  else { S.view="calc"; renderCalc(); }
+  renderHeader();
+}
+render();
+</script>
+</body>
+</html>
